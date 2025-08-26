@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Keyword Email Extractor</title>
+	<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+	<div class="container">
+		<h1>Keyword Email Extractor</h1>
+		<p class="subtitle">Search local index by keywords, scrape pages for emails, export to Excel.</p>
+
+		<section class="card">
+			<h2>Search Settings</h2>
+			<div class="form-row">
+				<label for="keywordsInput">Keywords (comma-separated)</label>
+				<textarea id="keywordsInput" placeholder="e.g. python, apache, gnu" rows="2"></textarea>
+			</div>
+			<div class="form-row">
+				<label for="maxResultsInput">Max results per keyword</label>
+				<input id="maxResultsInput" type="number" min="1" max="50" value="5">
+			</div>
+			<div class="form-row">
+				<label>Index Source</label>
+				<div class="inline">
+					<label><input type="radio" name="indexSource" value="server" checked> Use server index</label>
+					<label><input type="radio" name="indexSource" value="upload"> Upload index (JSON/CSV)</label>
+				</div>
+			</div>
+			<div class="form-row" id="uploadRow" style="display:none;">
+				<label for="indexFile">Index file</label>
+				<input id="indexFile" type="file" accept=".json,.csv">
+			</div>
+			<div class="actions">
+				<button id="startBtn">Start</button>
+			</div>
+		</section>
+
+		<section class="card">
+			<h2>Progress</h2>
+			<div id="progressText">Idle.</div>
+			<div id="progressBar"><div id="progressFill" style="width:0;"></div></div>
+		</section>
+
+		<section class="card">
+			<h2>Download</h2>
+			<p>When processing finishes, your Excel file will be available here.</p>
+			<a id="downloadLink" href="#" download="results.xlsx" style="display:none;">Download results.xlsx</a>
+		</section>
+
+		<footer>
+			<p>Self-hosted. No external search engines. Built with Axios, Cheerio, and SheetJS.</p>
+		</footer>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/axios@1.7.7/dist/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+	<script src="./config.js"></script>
+	<script src="./app.js"></script>
+</body>
+</html>
