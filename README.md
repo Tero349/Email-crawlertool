@@ -1,66 +1,79 @@
-# Keyword Email Extractor (Self-hosted)
+# Email & Name Extractor (Static + Serverless)
 
-A static web UI with a small Node API that searches a local index of URLs per keyword, fetches webpages, extracts emails and nearby names, and exports results to Excel (.xlsx). No external search engines or third-party APIs.
+A static web tool with a minimal serverless-style API that:
+- Searches a local JSON index for URLs by keyword
+- Fetches each page and extracts emails and names
+- Exports results to an Excel (.xlsx) file using SheetJS
 
-## Features
-- Keyword input (comma-separated) and per-keyword result limit
-- Local index search (server-provided or user-uploaded JSON/CSV)
-- Scraping via axios with HTML parsing via Cheerio
-- Email + nearby name extraction
-- Excel export via SheetJS (client-side)
-- Single service deploy: Express serves API and static frontend
+No third-party search engines or external APIs are used.
 
 ## Project Structure
-- `server/`: Express API, also serves `frontend/`
-  - `data/index.json`: Example local index entries
-- `frontend/`: Static UI (`index.html`, `app.js`, `styles.css`, `config.js`)
+
+```
+client/          # Static site (index.html, app.js, style.css, index.json)
+api/             # Node/Express API for scraping (axios + cheerio)
+render.yaml      # Render blueprint (static + web service)
+```
 
 ## Local Development
-1. Start the API + frontend:
+
+1. Install API deps:
+
+```bash
+cd api && npm install
 ```
-cd server
-npm install
+
+2. Run API locally (default :3001):
+
+```bash
 npm start
 ```
-2. Open http://localhost:3001
-3. Enter keywords and max results, choose index source:
-   - Use server index (default)
-   - Or upload your own JSON/CSV with columns/fields: `url`, `title` (optional), `keywords` (optional; CSV uses `;`-separated list)
-4. Click Start to scrape and then download the `results.xlsx` file.
 
-## CSV Format
-- Header required: `url` (required), `title` (optional), `keywords` (optional; `;`-separated)
+3. Serve the static client (any static server). For quick testing:
 
-Example:
-```
-url,title,keywords
-https://example.com,Example,"contact;team"
+```bash
+# from project root
+python3 -m http.server 3000 --directory client
 ```
 
-## Configuration
-- `frontend/config.js` allows setting `API_BASE_URL` if the API is hosted on a different origin. Leave empty when Express serves the frontend.
+4. Open the app: http://localhost:3000
+
+- Leave API base URL empty if you reverse-proxy; otherwise set it to `http://localhost:3001` in the UI.
+- Edit `client/index.json` to provide your own keywords and URLs.
+
+## Index Format
+
+`client/index.json` can be either an array or an object with `entries`:
+
+```json
+[
+  { "keyword": "plumber", "urls": ["https://site1/contact", "https://site2/"] },
+  { "keyword": "electrician", "urls": ["https://..."] }
+]
+```
+
+Each `urls` item should be a fully qualified URL. The UI will cap per-keyword URLs based on the "Max results" field.
+
+## Outputs
+
+- Columns: `Keyword`, `Name`, `Email`
+- Downloaded as `extracted_emails.xlsx`
 
 ## Deployment on Render
-You can deploy as a single Web Service that serves both API and static frontend.
 
-Option A: Using render.yaml (recommended)
-- Push this repo to GitHub.
-- In Render, create a new Blueprint from repository.
-- Render will read `render.yaml` and create the service.
+This repo includes `render.yaml` defining two services:
+- Web service: Node API in `api/`
+- Static site: `client/`
 
-Option B: Manual Web Service
-- New Web Service → Select repo
-- Runtime: Node
-- Root Directory: `server`
-- Build Command: `npm install`
-- Start Command: `npm start`
-
-After deploy, visit the Render URL. The frontend is served at `/` and calls API endpoints under `/api/*`.
+1. Push to GitHub.
+2. In Render, "New +" → "Blueprint" → connect your repo.
+3. Review and create resources. Once deployed:
+   - API URL will look like `https://<api-service>.onrender.com`
+   - Static site will be available at its own URL
+4. In the UI, set API base URL to the API service URL.
 
 ## Notes
-- The example index is small. Replace `server/data/index.json` with your own dataset, or upload an index file via the UI.
-- The scraper uses a simple heuristic to associate names near emails. It may not always find a name; in that case the Name cell is left blank.
-- Respect robots.txt and site policies for any URLs in your local index.
 
-## License
-MIT 
+- The scraper performs simple name inference using nearby text and metadata; results vary by site.
+- The API does not return source URLs by design; only `email` and `name` are returned.
+- Respect target website robots and terms; use responsibly. 

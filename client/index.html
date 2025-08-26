@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Email & Name Extractor</title>
+	<link rel="stylesheet" href="./style.css">
+	<!-- SheetJS for XLSX generation -->
+	<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>Email & Name Extractor</h1>
+		<div class="card">
+			<label for="keywords">Keywords (comma-separated)</label>
+			<textarea id="keywords" placeholder="e.g., plumber, electrician, bakery"></textarea>
+		</div>
+		<div class="row">
+			<div class="card">
+				<label for="maxResults">Max results per keyword</label>
+				<input id="maxResults" type="number" min="1" value="10" />
+			</div>
+			<div class="card">
+				<label for="apiBase">API base URL</label>
+				<input id="apiBase" type="text" placeholder="e.g., https://your-api.onrender.com" />
+				<small>Leave empty for same origin during local dev</small>
+			</div>
+		</div>
+
+		<div class="actions">
+			<button id="startBtn">Start Processing</button>
+			<button id="downloadBtn" disabled>Download XLSX</button>
+		</div>
+
+		<div class="status">
+			<div id="statusText">Load an index and start.</div>
+			<progress id="progress" value="0" max="100"></progress>
+		</div>
+
+		<div class="card">
+			<h3>Local Index</h3>
+			<p>This tool searches a local JSON index at <code>/index.json</code>. Customize that file in your deployment.</p>
+			<pre id="indexSummary"></pre>
+		</div>
+	</div>
+
+	<script src="./app.js"></script>
+</body>
+</html>
