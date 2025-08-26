@@ -1,0 +1,23 @@
+[
+	{
+		"keyword": "plumber",
+		"urls": [
+			"https://www.example.com/contact",
+			"https://www.iana.org/domains/reserved"
+		]
+	},
+	{
+		"keyword": "electrician",
+		"urls": [
+			"https://www.example.org/about",
+			"https://www.rfc-editor.org/contact/"
+		]
+	},
+	{
+		"keyword": "bakery",
+		"urls": [
+			"https://www.example.net/team",
+			"https://www.example.com/"
+		]
+	}
+]

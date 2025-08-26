@@ -1,8 +1,17 @@
 services:
-  - name: keyword-email-extractor
-    type: web
-    env: node
-    rootDir: server
-    buildCommand: npm install
-    startCommand: npm start
-    autoDeploy: true
+	- type: web
+		name: email-name-extractor-api
+		env: node
+		plan: free
+		rootDir: api
+		buildCommand: npm install
+		startCommand: npm start
+		autoDeploy: true
+	- type: static_site
+		name: email-name-extractor-client
+		plan: free
+		rootDir: client
+		buildCommand: ''
+		staticPublishPath: .
+		healthCheckPath: /
+		autoDeploy: true

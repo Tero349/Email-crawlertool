@@ -1,0 +1,16 @@
+* { box-sizing: border-box; }
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 24px; background: #0f172a; color: #e2e8f0; }
+.container { max-width: 1000px; margin: 0 auto; }
+h1 { margin: 0 0 16px; font-size: 28px; }
+.card { background: #111827; border: 1px solid #1f2937; padding: 16px; border-radius: 10px; margin: 0 0 12px; }
+label { display: block; font-weight: 600; margin: 0 0 8px; }
+textarea { width: 100%; min-height: 90px; padding: 10px; border-radius: 8px; border: 1px solid #334155; background: #0b1220; color: #e2e8f0; }
+input[type="number"], input[type="text"] { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #334155; background: #0b1220; color: #e2e8f0; }
+small { color: #94a3b8; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.actions { display: flex; gap: 12px; margin: 12px 0; }
+button { background: #2563eb; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; }
+button[disabled] { background: #334155; cursor: not-allowed; }
+.status { display: flex; gap: 12px; align-items: center; }
+progress { width: 280px; height: 16px; }
+pre { white-space: pre-wrap; color: #94a3b8; }
