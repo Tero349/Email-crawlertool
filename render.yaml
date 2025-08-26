@@ -1,0 +1,8 @@
+services:
+  - name: keyword-email-extractor
+    type: web
+    env: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true
