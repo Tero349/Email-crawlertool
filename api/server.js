@@ -30,7 +30,9 @@ function extractCandidateNames($) {
 
 function findNameNearEmail($, email) {
 	try {
-		const el = $(`*:contains('${email}')`).first();
+		const safe = String(email).replace(/"/g, '\\"');
+		const selector = `*:contains("${safe}")`;
+		const el = $(selector).first();
 		if (el && el.length) {
 			const context = el.closest('p, li, div, section').text() || el.text();
 			const name = bestNameFromText(context);
